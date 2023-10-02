@@ -13,8 +13,11 @@ Example configuration (add to bottom of `extra_cfg.yml`)
 ---
 !RandomTrackConfiguration
 # Duration until next track change
-# Minimum is 5
+# Minimum is 5, Default is 30
 TrackDurationMinutes: 90
+# Transition duration until next track change, server will restart after
+# Minimum is 1, Default is 5
+TransitionDurationMinutes: 10
 # Should content manager download links be updated
 UpdateContentManager: true
 # Weights for random track selection, setting a weight to 0 blacklists a track, default weight is 1.

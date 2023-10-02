@@ -13,5 +13,6 @@ public class RandomTrackConfigurationValidator : AbstractValidator<RandomTrackCo
             ww.RuleFor(w => w.Weight).GreaterThanOrEqualTo(0);
         });
         RuleFor(cfg => cfg.TrackDurationMinutes).GreaterThanOrEqualTo(5);
+        RuleFor(cfg => cfg.TransitionDurationMinutes).GreaterThanOrEqualTo(1);
     }
 }
