@@ -17,7 +17,7 @@ public class RandomTrackConfiguration : IValidateConfiguration<RandomTrackConfig
 
 public class TrackWeight
 {
-    public required string DisplayName { get; init; }
+    public required string Name { get; init; }
     public required string TrackFolder { get; init; }
     public required string TrackLayoutConfig { get; init; }
     public required float Weight { get; init; }
