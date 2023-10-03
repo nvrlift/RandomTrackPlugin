@@ -1,7 +1,7 @@
 ﻿using AssettoServer.Server.Configuration;
 using JetBrains.Annotations;
+using RandomTrackPlugin.Track;
 using YamlDotNet.Serialization;
-using nvrlift.AssettoServer.Track;
 
 namespace RandomTrackPlugin;
 
