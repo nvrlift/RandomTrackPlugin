@@ -83,6 +83,7 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
     {
         while (!stoppingToken.IsCancellationRequested)
         {
+            await Task.Delay(_configuration.TrackDurationMilliseconds, stoppingToken);
             try
             {
                 TrackType nextTrack = PickRandom();
@@ -108,10 +109,7 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
             {
                 Log.Error(ex, "Error during random track change");
             }
-            finally
-            {
-                await Task.Delay(_configuration.TrackDurationMilliseconds, stoppingToken);
-            }
+            // finally { }
         }
     }
 }
