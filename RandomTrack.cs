@@ -1,9 +1,10 @@
 ﻿using AssettoServer.Server;
+using AssettoServer.Server.Configuration;
 using AssettoServer.Server.Plugin;
 using AssettoServer.Shared.Network.Packets.Shared;
 using AssettoServer.Shared.Services;
 using Microsoft.Extensions.Hosting;
-using RandomTrackPlugin.Track;
+using nvrlift.AssettoServer.Track;
 using Serilog;
 
 namespace RandomTrackPlugin;
@@ -12,7 +13,7 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
 {
     private struct TrackWeight
     {
-        internal TrackType Track { get; init; }
+        internal RandomTrackType Track { get; init; }
         internal float PrefixSum { get; init; }
     }
 
@@ -21,18 +22,36 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
     private readonly TrackManager _trackManager;
     private readonly List<TrackWeight> _tracks = new();
 
-    public RandomTrack(RandomTrackConfiguration configuration, EntryCarManager entryCarManager, TrackManager trackManager, IHostApplicationLifetime applicationLifetime) : base(applicationLifetime)
+    public RandomTrack(RandomTrackConfiguration configuration, ACServerConfiguration acServerConfiguration, EntryCarManager entryCarManager, TrackManager trackManager, IHostApplicationLifetime applicationLifetime) : base(applicationLifetime)
     {
         _configuration = configuration;
         _entryCarManager = entryCarManager;
         _trackManager = trackManager;
 
-        float weightSum = _configuration.TrackWeights
+        _trackManager.SetTrack(new TrackData(new()
+        {
+            Name = _configuration.RandomTrackTypes.FirstOrDefault(t => t.TrackFolder == acServerConfiguration.Server.Track 
+                                                                       && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.Name 
+                   ?? acServerConfiguration.Server.Track.Split('/').Last(),
+            TrackFolder = acServerConfiguration.Server.Track,
+            TrackLayoutConfig = acServerConfiguration.Server.TrackConfig,
+            CMLink = _configuration.RandomTrackTypes.FirstOrDefault(t => t.TrackFolder == acServerConfiguration.Server.Track 
+                                                                       && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.CMLink ?? "",
+            CMVersion = _configuration.RandomTrackTypes.FirstOrDefault(t => t.TrackFolder == acServerConfiguration.Server.Track 
+                                                                       && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.CMVersion ?? ""
+        }, null)
+        {
+            IsInit = true,
+            UpdateContentManager = _configuration.UpdateContentManager,
+            TransitionDuration = 0
+        });
+
+        float weightSum = _configuration.RandomTrackTypes
             .Select(w => w.Weight)
             .Sum();
 
         float prefixSum = 0.0f;
-        foreach (var track in _configuration.TrackWeights)
+        foreach (var track in _configuration.RandomTrackTypes)
         {
             if (track.Weight > 0)
             {
@@ -55,10 +74,10 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
         });
     }
 
-    private TrackType PickRandom()
+    private RandomTrackType PickRandom()
     {
         float rng = Random.Shared.NextSingle();
-        TrackType track = _tracks[0].Track;
+        RandomTrackType track = _tracks[0].Track;
 
         int begin = 0, end = _tracks.Count;
         while (begin <= end)
@@ -86,7 +105,7 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
             await Task.Delay(_configuration.TrackDurationMilliseconds, stoppingToken);
             try
             {
-                TrackType nextTrack = PickRandom();
+                RandomTrackType nextTrack = PickRandom();
 
                 var last = _trackManager.CurrentTrack;
                 
