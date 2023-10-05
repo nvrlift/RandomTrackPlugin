@@ -9,7 +9,7 @@ using Serilog;
 
 namespace RandomTrackPlugin;
 
-public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
+public class RandomTrackPlugin : CriticalBackgroundService, IAssettoServerAutostart
 {
     private struct TrackWeight
     {
@@ -22,7 +22,7 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
     private readonly TrackManager _trackManager;
     private readonly List<TrackWeight> _tracks = new();
 
-    public RandomTrack(RandomTrackConfiguration configuration, ACServerConfiguration acServerConfiguration, EntryCarManager entryCarManager, TrackManager trackManager, IHostApplicationLifetime applicationLifetime) : base(applicationLifetime)
+    public RandomTrackPlugin(RandomTrackConfiguration configuration, ACServerConfiguration acServerConfiguration, EntryCarManager entryCarManager, TrackManager trackManager, IHostApplicationLifetime applicationLifetime) : base(applicationLifetime)
     {
         _configuration = configuration;
         _entryCarManager = entryCarManager;
