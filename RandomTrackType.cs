@@ -2,9 +2,14 @@ using nvrlift.AssettoServer.Track;
 
 namespace RandomTrackPlugin;
 
-public class RandomTrackType : TrackBaseType
+public class RandomTrackType : ITrackBaseType
 {
-    public float Weight { get; set; } = 1.0f;
+    public string Name { get; set; }
+    public string TrackFolder { get; set; }
+    public string TrackLayoutConfig { get; set; }
+    public string CMLink { get; set; }
+    public string CMVersion { get; set; }
+    public float Weight { get; set; }
     public RandomTrackType(WeightEntry input)
     {
         Name = input.Name;
@@ -14,4 +19,5 @@ public class RandomTrackType : TrackBaseType
         CMVersion = input.CMVersion ?? "";
         Weight = input.Weight ?? 1.0f;
     }
+    public RandomTrackType(){}
 }
