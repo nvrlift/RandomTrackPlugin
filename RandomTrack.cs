@@ -28,7 +28,7 @@ public class RandomTrack : CriticalBackgroundService, IAssettoServerAutostart
         _entryCarManager = entryCarManager;
         _trackManager = trackManager;
 
-        _trackManager.SetTrack(new TrackData(new()
+        _trackManager.SetTrack(new TrackData(new RandomTrackType()
         {
             Name = _configuration.RandomTrackTypes.FirstOrDefault(t => t.TrackFolder == acServerConfiguration.Server.Track 
                                                                        && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.Name 
