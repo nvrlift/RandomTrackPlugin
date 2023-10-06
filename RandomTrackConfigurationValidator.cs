@@ -8,10 +8,7 @@ public class RandomTrackConfigurationValidator : AbstractValidator<RandomTrackCo
 {
     public RandomTrackConfigurationValidator()
     {
-        RuleForEach(cfg => cfg.TrackWeights).ChildRules(ww =>
-        {
-            ww.RuleFor(w => w.Weight).GreaterThanOrEqualTo(0);
-        });
+        RuleForEach(cfg => cfg.TrackWeights).ChildRules(ww => { ww.RuleFor(w => w.Weight).GreaterThanOrEqualTo(0); });
         RuleFor(cfg => cfg.TrackDurationMinutes).GreaterThanOrEqualTo(5);
         RuleFor(cfg => cfg.TransitionDurationMinutes).GreaterThanOrEqualTo(1);
     }

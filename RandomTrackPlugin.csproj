@@ -22,10 +22,10 @@
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
         </ProjectReference>
-        <ProjectReference Include="..\nvrlift.AssettoServer\nvrlift.AssettoServer.csproj">
+        <!--<ProjectReference Include=".\nvrlift.AssettoServer\nvrlift.AssettoServer.csproj">
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
-        </ProjectReference>
+        </ProjectReference>-->
     </ItemGroup>
 
 </Project>

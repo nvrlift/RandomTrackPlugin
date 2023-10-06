@@ -22,7 +22,9 @@ public class RandomTrackPlugin : CriticalBackgroundService, IAssettoServerAutost
     private readonly TrackManager _trackManager;
     private readonly List<TrackWeight> _tracks = new();
 
-    public RandomTrackPlugin(RandomTrackConfiguration configuration, ACServerConfiguration acServerConfiguration, EntryCarManager entryCarManager, TrackManager trackManager, IHostApplicationLifetime applicationLifetime) : base(applicationLifetime)
+    public RandomTrackPlugin(RandomTrackConfiguration configuration, ACServerConfiguration acServerConfiguration,
+        EntryCarManager entryCarManager, TrackManager trackManager,
+        IHostApplicationLifetime applicationLifetime) : base(applicationLifetime)
     {
         _configuration = configuration;
         _entryCarManager = entryCarManager;
@@ -30,15 +32,18 @@ public class RandomTrackPlugin : CriticalBackgroundService, IAssettoServerAutost
 
         _trackManager.SetTrack(new TrackData(new RandomTrackType()
         {
-            Name = _configuration.RandomTrackTypes.FirstOrDefault(t => t.TrackFolder == acServerConfiguration.Server.Track 
-                                                                       && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.Name 
+            Name = _configuration.RandomTrackTypes.FirstOrDefault(t =>
+                       t.TrackFolder == acServerConfiguration.Server.Track
+                       && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.Name
                    ?? acServerConfiguration.Server.Track.Split('/').Last(),
             TrackFolder = acServerConfiguration.Server.Track,
             TrackLayoutConfig = acServerConfiguration.Server.TrackConfig,
-            CMLink = _configuration.RandomTrackTypes.FirstOrDefault(t => t.TrackFolder == acServerConfiguration.Server.Track 
-                                                                       && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.CMLink ?? "",
-            CMVersion = _configuration.RandomTrackTypes.FirstOrDefault(t => t.TrackFolder == acServerConfiguration.Server.Track 
-                                                                       && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.CMVersion ?? ""
+            CMLink = _configuration.RandomTrackTypes.FirstOrDefault(t =>
+                t.TrackFolder == acServerConfiguration.Server.Track
+                && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.CMLink ?? "",
+            CMVersion = _configuration.RandomTrackTypes.FirstOrDefault(t =>
+                t.TrackFolder == acServerConfiguration.Server.Track
+                && t.TrackLayoutConfig == acServerConfiguration.Server.TrackConfig)?.CMVersion ?? ""
         }, null)
         {
             IsInit = true,
@@ -108,11 +113,16 @@ public class RandomTrackPlugin : CriticalBackgroundService, IAssettoServerAutost
                 RandomTrackType nextTrack = PickRandom();
 
                 var last = _trackManager.CurrentTrack;
-                
+
                 if (last.Type != nextTrack)
                 {
-                    _entryCarManager.BroadcastPacket(new ChatMessage { SessionId = 255, Message = $"Next track: {nextTrack.Name}" });
-                    _entryCarManager.BroadcastPacket(new ChatMessage { SessionId = 255, Message = $"Track will change in {_configuration.TransitionDurationMinutes} minutes." });
+                    _entryCarManager.BroadcastPacket(new ChatMessage
+                        { SessionId = 255, Message = $"Next track: {nextTrack.Name}" });
+                    _entryCarManager.BroadcastPacket(new ChatMessage
+                    {
+                        SessionId = 255,
+                        Message = $"Track will change in {_configuration.TransitionDurationMinutes} minutes."
+                    });
 
                     // Delay the track switch by configured time delay
                     await Task.Delay(_configuration.TransitionDurationMinutes, stoppingToken);

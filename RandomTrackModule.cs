@@ -13,7 +13,7 @@ public class RandomTrackModule : AssettoServerModule<RandomTrackConfiguration>
         builder.RegisterType<TrackImplementation>().AsSelf().SingleInstance();
         builder.RegisterType<TrackManager>().AsSelf().SingleInstance();
         builder.RegisterType<ContentManagerImplementation>().AsSelf().SingleInstance();
-        
+
         builder.RegisterType<RandomTrackPlugin>().AsSelf().As<IAssettoServerAutostart>().SingleInstance();
     }
 }

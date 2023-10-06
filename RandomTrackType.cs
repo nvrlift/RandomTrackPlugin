@@ -10,6 +10,7 @@ public class RandomTrackType : ITrackBaseType
     public string CMLink { get; set; }
     public string CMVersion { get; set; }
     public float Weight { get; set; }
+
     public RandomTrackType(WeightEntry input)
     {
         Name = input.Name;
@@ -19,5 +20,8 @@ public class RandomTrackType : ITrackBaseType
         CMVersion = input.CMVersion ?? "";
         Weight = input.Weight ?? 1.0f;
     }
-    public RandomTrackType(){}
+
+    public RandomTrackType()
+    {
+    }
 }

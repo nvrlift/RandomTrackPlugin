@@ -1,14 +1,18 @@
 # RandomTrackPlugin
+
 Plugin that changes tracks randomly.
 
 ## Configuration
+
 Enable the plugin in `extra_cfg.yml`
+
 ```yaml
 EnablePlugins:
 - RandomTrackPlugin
 ```
 
-Example configuration (add to bottom of `extra_cfg.yml`)  
+Example configuration (add to bottom of `extra_cfg.yml`)
+
 ```yaml
 ---
 !RandomTrackConfiguration

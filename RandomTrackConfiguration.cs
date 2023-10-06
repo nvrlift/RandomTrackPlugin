@@ -16,7 +16,9 @@ public class RandomTrackConfiguration : IValidateConfiguration<RandomTrackConfig
 
     [YamlIgnore] public int TrackDurationMilliseconds => TrackDurationMinutes * 60_000;
     [YamlIgnore] public int TransitionDurationMilliseconds => TransitionDurationMinutes * 60_000;
-    [YamlIgnore] public List<RandomTrackType> RandomTrackTypes => TrackWeights.Select(w => new RandomTrackType(w)).ToList();
+
+    [YamlIgnore]
+    public List<RandomTrackType> RandomTrackTypes => TrackWeights.Select(w => new RandomTrackType(w)).ToList();
 }
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
