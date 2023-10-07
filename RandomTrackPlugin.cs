@@ -47,7 +47,7 @@ public class RandomTrackPlugin : CriticalBackgroundService, IAssettoServerAutost
         }, null)
         {
             IsInit = true,
-            UpdateContentManager = _configuration.UpdateContentManager,
+            ContentManager = _configuration.ContentManager,
             TransitionDuration = 0
         });
 
@@ -130,7 +130,7 @@ public class RandomTrackPlugin : CriticalBackgroundService, IAssettoServerAutost
                     _trackManager.SetTrack(new TrackData(last.Type, nextTrack)
                     {
                         TransitionDuration = _configuration.TransitionDurationMilliseconds,
-                        UpdateContentManager = _configuration.UpdateContentManager
+                        ContentManager = _configuration.ContentManager
                     });
                 }
             }

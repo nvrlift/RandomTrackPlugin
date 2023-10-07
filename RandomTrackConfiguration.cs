@@ -1,18 +1,18 @@
 ﻿using AssettoServer.Server.Configuration;
 using JetBrains.Annotations;
 using nvrlift.AssettoServer.Track;
+using VotingTrackPlugin;
 using YamlDotNet.Serialization;
 
 namespace RandomTrackPlugin;
 
 [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
-public class RandomTrackConfiguration : IValidateConfiguration<RandomTrackConfigurationValidator>
+public class RandomTrackConfiguration : NvrliftBaseConfiguration, IValidateConfiguration<RandomTrackConfigurationValidator>
 {
     public List<WeightEntry> TrackWeights { get; init; } = new();
 
     public int TrackDurationMinutes { get; set; } = 30;
     public int TransitionDurationMinutes { get; set; } = 5;
-    public bool UpdateContentManager { get; init; } = false;
 
     [YamlIgnore] public int TrackDurationMilliseconds => TrackDurationMinutes * 60_000;
     [YamlIgnore] public int TransitionDurationMilliseconds => TransitionDurationMinutes * 60_000;
