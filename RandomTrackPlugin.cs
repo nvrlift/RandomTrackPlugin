@@ -125,7 +125,7 @@ public class RandomTrackPlugin : CriticalBackgroundService, IAssettoServerAutost
                     });
 
                     // Delay the track switch by configured time delay
-                    await Task.Delay(_configuration.TransitionDurationMinutes, stoppingToken);
+                    await Task.Delay(_configuration.TransitionDurationMilliseconds, stoppingToken);
 
                     _trackManager.SetTrack(new TrackData(last.Type, nextTrack)
                     {
